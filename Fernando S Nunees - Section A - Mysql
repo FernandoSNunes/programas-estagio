@@ -1,0 +1,43 @@
+Fernando Sassi Nunes
+
+-- 1. Write a query to display the name (first_name and last_name) and department ID of all 
+-- employees in departments 30 or 100 in ascending order.
+
+select FIRST_NAME, LAST_NAME, DEPARTMENT_ID 
+from employees 
+where DEPARTMENT_ID = 30 or DEPARTMENT_ID = 100
+order by FIRST_NAME asc
+
+
+-- 2. Write a query to find the manager ID and the salary of the lowest-paid employee for that manager.
+
+select MANAGER_ID, min(SALARY) as Lowest_salary_from_managed 
+from employees
+group by MANAGER_ID
+
+
+-- 3. Write a query to find the name (first_name and last_name) and the salary of the employees
+-- who earn more than the employee whose last name is Bell.
+
+select FIRST_NAME, LAST_NAME, SALARY 
+from employees
+where SALARY > (select SALARY from employees where LAST_NAME = 'Bell' limit 1)
+
+
+-- 4. Write a query to find the name (first_name and last_name), job, department ID and name of
+-- all employees that work in London.
+
+select e.FIRST_NAME, e.LAST_NAME, j.JOB_TITLE as JOB, e.DEPARTMENT_ID 
+from employees e
+join jobs j on e.JOB_ID = j.JOB_ID 
+join departments d on e.DEPARTMENT_ID = d.DEPARTMENT_ID
+join locations l on d.LOCATION_ID = l.LOCATION_ID
+where l.CITY = 'London'
+
+
+-- 5. Write a query to get the department name and number of employees in the department.
+
+select d.DEPARTMENT_NAME, count(e.EMPLOYEE_ID) as 'NUMBER OF EMPLOYEES'
+from employees e
+join departments d on e.DEPARTMENT_ID = d.DEPARTMENT_ID
+group by e.DEPARTMENT_ID
